@@ -22,6 +22,22 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id /home/rem/.config/i3/scripts/launch.sh
 exec --no-startup-id nm-applet
 
+# 
+# Application Rules
+#
+
+for_window [class="Chromium"] move container to workspace 1
+for_window [class="Discord"] move container to workspace 2
+for_window [class="VIA"] floating enable
+
+for_window [class="xterm"] move container to workspace 3
+for_window [class="xfce4-terminal"] move container to workspace 3
+for_window [class="thunar"] move container to workspace 3
+
+#
+# Keybinds
+#
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -41,29 +57,21 @@ bindsym $mod+q kill
 # start dmenu (a program launcher)
 bindsym $mod+d exec --no-startup-id "~/.config/i3/scripts/launcher.sh"
 
+# screenshot region and full screen using maim and xclip
+bindsym $mod+p exec maim -u | xclip -selection clipboard -t image/png -i
+bindsym $mod+Shift+p exec maim -s -u | xclip -selection clipboard -t image/png -i
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# alternatively, you can use the cursor keys:
-# bindsym $mod+Left focus left
-# bindsym $mod+Down focus down
-# bindsym $mod+Up focus up
-# bindsym $mod+Right focus right
-
 # move focused window with vim keybinds
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
-# bindsym $mod+Shift+Left move left
-# bindsym $mod+Shift+Down move down
-# bindsym $mod+Shift+Up move up
-# bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+bracketleft split h
@@ -137,12 +145,6 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
         bindsym h resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym j resize shrink height 10 px or 10 ppt
