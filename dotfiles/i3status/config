@@ -1,0 +1,44 @@
+general {
+    colors = true
+    color_good = "#99ad6a"
+    color_degraded = "#d8ad4c"
+    color_bad = "#cf6a4c"
+    
+    markup = "pango"
+    interval = 5
+}
+
+order += "disk /"
+order += "ethernet enp42s0"
+order += "memory"
+order += "tztime local"
+order += "volume master"
+
+ethernet enp42s0 {
+    format_up = "<span font='Hack Nerd Font Mono 11'></span> %speed"
+    format_down = " down"
+}
+
+volume master {
+    format = "<span font='Hack Nerd Font Mono 11'> </span>%volume"
+    format_muted = " %volume"
+    device = "default"
+    mixer = "Master"
+    mixer_idx = 0
+}
+
+
+tztime local {
+    format = "%Y-%m-%d %H:%M"
+    timezone = "Europe/London"
+}
+
+disk "/" {
+    format = "<span font='Hack Nerd Font Mono 11'></span> %free"
+}
+
+memory {
+    format = "<span font='Hack Nerd Font Mono 11'> </span>%used"
+    threshold_degraded = "10%"
+    format_degraded = "MEMORY: %free"
+}
