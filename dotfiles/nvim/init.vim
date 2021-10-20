@@ -24,4 +24,11 @@ call plug#begin("~/.vim/plugged")
     Plug 'tpope/vim-fugitive'
 call plug#end()
 
+" Hard mode
+for key in ['<Up>', '<Down>', '<Left>', '<Right>']
+  exec 'noremap' key '<Nop>'
+  exec 'inoremap' key '<Nop>'
+  exec 'cnoremap' key '<Nop>'
+endfor
+
 colorscheme jellybeans

@@ -16,6 +16,9 @@ font pango:Hack Nerd Font Mono 9.2
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
+# Super hacky workaround for screensaver
+exec --no-startup-id xautolock -time 20 -locker "systemctl suspend"
+
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 
