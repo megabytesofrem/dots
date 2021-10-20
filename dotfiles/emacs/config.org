@@ -1,0 +1,97 @@
+k#+TITLE: Emacs Config
+#+AUTHOR: megabytesofrem
+#+DATE: 2021-10-17
+ 
+* Initialization
+Use MELPA to manage packages, and use-package for lazy loading.
+
+#+BEGIN_SRC emacs-lisp
+  (package-initialize)
+  (require 'package)
+  (add-to-list 'package-archives
+       '("melpa" . "http://melpa.org/packages/"))
+
+  (require 'use-package)
+
+  ;; Install packages
+  (use-package color-theme-sanityinc-tomorrow
+    :ensure t)
+
+  (use-package evil
+    :ensure t)
+
+  (use-package evil-leader
+    :ensure t)
+
+  (use-package ace-window
+    :ensure t)
+
+  (use-package elcord
+    :ensure t)
+
+  ;; Enable line numbers globally
+  (global-display-line-numbers-mode)
+
+  ;; Evil mode for VIM keybinds
+  (global-evil-leader-mode)
+  (evil-mode 1)
+#+END_SRC
+
+Setup *elcord* which provides Discord integration to flex on IDE users.
+#+BEGIN_SRC emacs-lisp
+  (elcord-mode)
+#+END_SRC
+  
+* Keybindings
+#+BEGIN_SRC emacs-lisp
+  ;; Set SPC as the leader key like in Spacemacs
+  (evil-leader/set-leader "<SPC>")
+
+  (evil-leader/set-key
+   "f" 'find-file
+   "s" 'save-buffer ;;; make this org mode aware?
+   "b" 'switch-to-buffer
+   "k" 'kill-buffer)
+#+END_SRC
+
+* Fix: Indent with spaces *not* tabs!
+Set the default indentation mode to indent with 4 spaces. Without this, other editors were getting confused
+and interpreting a mix of tabs and spaces!
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+  (setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
+#+END_SRC
+
+* Languages
+** C/C++
+Indent C/C++ properly and set the style to K&R using spaces instead of tabs.
+#+BEGIN_SRC emacs-lisp
+  (c-add-style "c-style"
+               '("k&r"
+                 (indent-tabs-mode . f)
+                 (c-basic-offset . 4)))
+
+  (defun rem/c-hook ()
+    (c-set-style "c-style")
+    (auto-fill-mode))
+
+  (add-hook 'c-mode-hook 'rem/c-hook)
+#+END_SRC
+
+** Java
+I **hate** Java with a capital H, but since the syntax is similar to C I modified the C hook.
+#+BEGIN_SRC emacs-lisp
+  ;; Define a custom Java mode style without tabs
+  (c-add-style "java-style-notabs"
+               '("java"
+                 (indent-tabs-mode . f)
+                 (c-basic-offset . 4)))
+
+  (defun rem/java-hook ()
+    (c-set-style "java-style-notabs")
+    (auto-fill-mode))
+
+  (add-hook 'java-mode-hook 'rem/java-hook)
+#+END_SRC
+ 
